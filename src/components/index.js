@@ -8,3 +8,5 @@ export { PagerIndicator } from "./PagerIndicator";
 export { SelectBox } from "./SelectBox";
 export { Slider } from "./Slider";
 export { Text } from "./Text";
+export { RatingBar } from "./RatingBar";
+

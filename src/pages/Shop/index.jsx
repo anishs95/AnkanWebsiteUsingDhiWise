@@ -4,7 +4,7 @@ import { Button, Img, Input, SelectBox, Text } from "components";
 import CartColumnframe48095972 from "components/CartColumnframe48095972";
 import CartNavbar from "components/CartNavbar";
 import CartSectionfooter from "components/CartSectionfooter";
-import HomepageCardproduct from "components/HomepageCardproduct";
+import HomepageCardproduct from "components/CategoryCard";
 
 const homeOptionsList = [
   { label: "Option1", value: "option1" },

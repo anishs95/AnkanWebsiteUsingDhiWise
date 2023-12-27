@@ -1,0 +1,15 @@
+.nav-link:hover {
+    /* Add your desired hover effects here */
+    color: #007bff; /* Change to the color you want on hover */
+    text-decoration: underline; /* You can change this to other styles like 'none' if you don't want underline */
+  }
+
+  .product-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust the values as needed */
+    transition: box-shadow 0.3s ease; /* Optional: Add a smooth transition effect */
+  }
+  
+  .product-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Adjust the values as needed */
+  }
+  

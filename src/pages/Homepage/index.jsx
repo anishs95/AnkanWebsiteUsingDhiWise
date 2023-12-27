@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +17,9 @@ import CartColumnframe48095972 from "components/CartColumnframe48095972";
 import CartNavbar from "components/CartNavbar";
 import CartSectionfooter from "components/CartSectionfooter";
 import HomepageCardblog from "components/HomepageCardblog";
-import HomepageCardproduct from "components/HomepageCardproduct";
+import HomepageCardproduct from "components/CategoryCard";
+
+import ProductService from '../../services/productService';
 
 const homeOptionsList = [
   { label: "Option1", value: "option1" },
@@ -27,6 +29,7 @@ const homeOptionsList = [
 
 const HomepagePage = () => {
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
 
   const sliderRef = React.useRef(null);
   const [sliderState, setsliderState] = React.useState(0);
@@ -46,13 +49,37 @@ const HomepagePage = () => {
     { rectangleeighteen: "images/img_rectangle18_1.png" },
   ];
 
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await ProductService.getAllProductCategories();
+        // const response = await axios.get(`${basePath}api/Product/GetAllProductCategories`, {
+        //   headers: {
+        //     'authorization': getToken(),
+        //     'Content-type': 'application/json',
+        //   },
+        // });
+        setProducts(response.data); // Assuming the response data is an array of products
+        console.log("Called GET ALL PRODUCTS ");
+    //    console.log(response.data);
+    
+        console.log(products);
+      } catch (error) {
+        console.error('Error fetching product data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="bg-gray-50 flex flex-col font-rubik sm:gap-10 md:gap-10 gap-[100px] items-center justify-start mx-auto w-auto sm:w-full md:w-full">
         <div className="flex flex-col items-start justify-start w-full">
           <CartNavbar className="bg-white-A700 flex items-center justify-center md:px-5 px-[75px] py-[35px] w-full" />
           <div className="bg-orange-50 flex flex-col items-start justify-start md:px-10 sm:px-5 px-[75px] py-20 w-full">
-            <div className="flex md:flex-col flex-row md:gap-10 gap-[60px] items-center justify-start max-w-[1290px] mx-auto w-full">
+            {/* <div className="flex md:flex-col flex-row md:gap-10 gap-[60px] items-center justify-start max-w-[1290px] mx-auto w-full">
               <div className="flex flex-1 flex-col gap-[30px] items-start justify-start w-full">
                 <div className="flex flex-col gap-[26px] items-start justify-start w-full">
                   <Text
@@ -89,7 +116,7 @@ const HomepagePage = () => {
                 src="images/img_nathanoakleyo.png"
                 alt="nathanoakleyo"
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="bg-black-900 flex flex-col items-center justify-center md:px-10 sm:px-5 px-[173px] py-[41px] w-full">
@@ -147,7 +174,7 @@ const HomepagePage = () => {
                       className="text-gray-53 text-lg tracking-[-0.50px] w-full"
                       size="txtRubikRegular18Gray53"
                     >
-                      Living Room
+                      Living Room 2
                     </Text>
                     <Text
                       className="md:max-w-full max-w-xs text-4xl sm:text-[32px] md:text-[34px] text-gray-53 tracking-[-0.50px]"
