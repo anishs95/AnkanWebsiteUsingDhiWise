@@ -1,7 +1,12 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import { Img, SelectBox, Text } from "components";
+import { Img, SelectBox, Text, Button} from "components";
+import iconImage from "assets/images/iconic1.png";
+import Badge from "@material-ui/core/Badge";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { useNavigate } from "react-router-dom";
+
 
 const homeOptionsList = [
   { label: "Option1", value: "option1" },
@@ -9,19 +14,25 @@ const homeOptionsList = [
   { label: "Option3", value: "option3" },
 ];
 
+
+
+
 const CartNavbar = (props) => {
-  console.log("PROPS IN NAV : "+ JSON.stringify(props));
+  const navigate = useNavigate();
+  console.log("PROPS IN NAV : " + JSON.stringify(props));
+ 
+  const handleCardClick = () => {
+    navigate(`/cart`);
+  
+  };
+
   return (
     <>
       <header className={props.className}>
         <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
           <div className="header-row ">
             <Link to="/">
-              <Img
-                className="h-[60px] w-[120px]"
-                src="images/ankan/iconic1.png"
-                alt="car"
-              />
+              <Img className="h-[60px] w-[120px]" src={iconImage} alt="car" />
             </Link>
             <div className="mobile-menu">
               <div></div>
@@ -65,13 +76,17 @@ const CartNavbar = (props) => {
                 Product List
               </Text>
             </Link> */}
-
           </div>
-          <Img
-            className="h-6 sm:hidden w-[132px]"
-            src="images/img_icon.svg"
-            alt="icon"
-          />
+          <div>
+            <Badge color="secondary" badgeContent={4}>
+            <Button 
+                 
+                 onClick={handleCardClick}>
+              <ShoppingCartIcon />{}
+                </Button>
+          
+            </Badge>
+          </div>
         </div>
       </header>
     </>

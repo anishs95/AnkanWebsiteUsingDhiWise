@@ -17,15 +17,24 @@ import {
 import CartNavbar from "components/CartNavbar";
 import CartSectionfooter from "components/CartSectionfooter";
 import ProductService from "../../services/productService";
+import CartService from "../../services/cartService";
+import minusImage from "assets/images/img_minus_color.svg";
+import minusImageGrey from "assets/images/img_minus_grey.svg";
+import plusImage from "assets/images/img_plus.svg";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const DetailReviewPage = () => {
   const navigate = useNavigate();
   const { productId } = useParams();
   const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
 
   function handleNavigate1() {
     window.location.href = "https://accounts.google.com/";
   }
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,34 +51,98 @@ const DetailReviewPage = () => {
     fetchData();
   }, []);
 
+  const handleIncrement = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const addToCartButtonCalled = async () => {
+      console.log("ADD TO CART CALLED HERE: ");
+      console.log("PRODUCT ID : "+ product.id);
+      console.log("Quantity : "+ quantity);
+      console.log("ProductName : "+ product.name);
+      console.log("Color : "+ quantity);
+      console.log("unit : "+ product.unit);
+
+      var productDetails = {
+        productId: product.id,
+        productName: product.name,
+        quantity: quantity,
+        //color: null,
+        unit: product.unit,
+      };
+
+      try {
+        const response = await CartService.addItemToCart( productDetails);
+        setProduct(response.data); // Assuming the response data is an array of products
+        console.log("Called GET  CART DETAIL ");
+        console.log(response.data);
+        
+        // toast.success('Item added to Cart !!', {
+        //   position: "top-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "colored",
+        //   });
+      } catch (error) {
+       
+          toast.error('Something Went Wrong !!!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            });
+        
+        console.error("Error fetching CART DATA:", error.code);
+        console.error("Error fetching CART DATA:", error);
+      }
+  
+    };
+
+
   return (
     <>
-      <div className="bg-gray-50 flex flex-col font-rubik sm:gap-10 md:gap-10 gap-[100px] items-center justify-start mx-auto w-auto sm:w-full md:w-full">
-        <div className="flex flex-col items-start justify-start w-full">
-        <div className="flex flex-col items-start justify-start w-full">
-          <CartNavbar className="bg-white-A700 flex items-center justify-center md:px-5 px-[75px] py-[15px] w-full" />
-        </div>
+    
+      <div className="bg-gray-50 flex flex-col font-rubik sm:gap-10 md:gap-10 gap-[100px] items-center justify-start mx-auto w-auto sm:w-full md:w-full">   
+       <div className="flex flex-col items-start justify-start w-full">
+          <div className="flex flex-col items-start justify-start w-full">
+            <CartNavbar className="bg-white-A700 flex items-center justify-center md:px-5 px-[75px] py-[15px] w-full" />
+          </div>
+          <ToastContainer />
           <div className="flex flex-col items-start justify-start pt-[75px] md:px-10 sm:px-5 px-[75px] w-full">
             <div className="flex md:flex-col flex-row gap-[47px] items-center justify-start max-w-[1290px] mx-auto w-full">
-              {product.imageUris && <>
-                <Img
-                className="flex-1 md:flex-none md:h-[595px] sm:h-auto h-full max-h-[595px] object-cover sm:w-[] md:w-[]"
-              //  src="./img_rectangle1475.png"
-                src={product.imageUris[0]}
-                alt="rectangle1475"
-              />
-              
-              </>}
-             
+              {product.imageUris && (
+                <>
+                  <Img
+                    className="flex-1 md:flex-none md:h-[595px] sm:h-auto h-full max-h-[595px] object-cover sm:w-[] md:w-[]"
+                    src={product.imageUris[0]}
+                    alt="rectangle1475"
+                  />
+                </>
+              )}
+ 
               <div className="flex flex-1 flex-col gap-[30px] items-start justify-start w-full">
                 <div className="flex flex-col gap-[33px] items-start justify-start w-full">
                   <Text
                     className="max-w-[621px] md:max-w-full md:text-3xl sm:text-[28px] text-[32px] text-black-900 tracking-[-0.50px]"
                     size="txtRalewayRomanBold32Black900"
                   >
-                   {product.name}
+                    {product.name}
                   </Text>
-              
+
                   <Text
                     className="text-4xl sm:text-[32px] md:text-[34px] text-bluegray-900 tracking-[-0.50px] w-full"
                     size="txtRubikBold36"
@@ -86,7 +159,7 @@ const DetailReviewPage = () => {
                       </span>
                       <span className="text-black-900 font-rubik text-left font-normal">
                         {" "}
-                        {product.quantity}  {product.unit}
+                        {product.quantity} {product.unit}
                       </span>
                     </Text>
                     <Text
@@ -104,14 +177,12 @@ const DetailReviewPage = () => {
                         {" "}
                       </span>
                     </Text>
-                  
-              
                   </div>
                   <Text
                     className="leading-[35.00px] max-w-[621px] md:max-w-full text-gray-500 text-lg tracking-[-0.50px]"
                     size="txtRubikRegular18Gray500"
                   >
-                   {product.description}
+                    {product.description}
                   </Text>
                 </div>
                 <div className="flex flex-col items-start justify-start w-full">
@@ -119,39 +190,36 @@ const DetailReviewPage = () => {
                     <div className="border border-black-900 border-solid flex flex-row gap-[15px] items-center justify-start p-2.5 w-[38%]">
                       <Img
                         className="common-pointer h-6 ml-1 w-6"
-                        src="images/img_google.svg"
-                        alt="google"
-                        onClick={handleNavigate1}
+                        src={quantity > 1 ?minusImage: minusImageGrey}
+                        alt="minus"
+                        onClick={handleDecrement}
                       />
                       <Text
                         className="text-black-900 text-lg tracking-[-0.50px]"
                         size="txtRubikRegular18"
                       >
-                        1
+                        {quantity}
                       </Text>
                       <Img
                         className="h-6 w-6"
-                        src="images/img_plus.svg"
+                        src={plusImage}
                         alt="plus"
+                        onClick={handleIncrement}
                       />
                     </div>
                     <Text
                       className="common-pointer bg-black-900 flex-1 justify-center sm:pl-5 pl-[25px] pr-[13px] py-[11px] text-lg text-white-A700 tracking-[-0.50px] w-auto"
                       size="txtRubikRegular18WhiteA700"
-                      onClick={() => navigate("/")}
+                      onClick={() => addToCartButtonCalled()}
                     >
                       Add to Cart
                     </Text>
-                    <Button className="border border-bluegray-100 border-solid flex h-[43px] items-center justify-center p-3 w-[43px]">
-                      <Img src="images/img_favorite.svg" alt="favorite" />
-                    </Button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
 
         {/* // Code included for comments and related products  */}
 
@@ -461,7 +529,6 @@ const DetailReviewPage = () => {
         {/* <div className="flex flex-col font-rubik items-start justify-start max-w-[1428px] mx-auto md:px-5 w-full">
           <CartColumnframe48095972 className="bg-gradient  flex flex-col gap-2 items-start justify-start max-w-[1278px] md:pl-10 sm:pl-5 pl-[59px] py-[46px] w-full" />
         </div> */}
-
 
         <CartSectionfooter className="bg-black-900 flex font-raleway gap-2 items-center justify-center md:px-5 px-[75px] py-[50px] w-full" />
       </div>
