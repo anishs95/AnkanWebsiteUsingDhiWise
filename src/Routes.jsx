@@ -35,7 +35,7 @@ const ProjectRoutes = () => {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/order" element={<Order />} />
-          <Route path="/summary" element={<Summary />} />
+          <Route path="/summary/:pageId" element={<Summary />} />
           <Route path="/product-list/:categoryId" element={<ProductList />} />
           <Route path="/reward" element={<Reward />} />
           <Route path="/team" element={<Team />} />

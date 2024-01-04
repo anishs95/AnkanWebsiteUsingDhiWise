@@ -13,3 +13,28 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Adjust the values as needed */
   }
   
+  .close-icon {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+    color: #e50c0c; /* Adjust the color as needed */
+  }
+
+  .sorting-label {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .sorting-label:hover {
+    background-color: #f0f0f0; /* Change the color on hover */
+  }
+  
+  .sorting-label input {
+    margin-right: 8px; /* Adjust the spacing between the radio button and text */
+  }
+  

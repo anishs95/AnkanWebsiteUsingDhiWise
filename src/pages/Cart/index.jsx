@@ -13,11 +13,6 @@ import plusImage from "assets/images/img_plus.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const homeOptionsList = [
-  { label: "Option1", value: "option1" },
-  { label: "Option2", value: "option2" },
-  { label: "Option3", value: "option3" },
-];
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -25,6 +20,11 @@ const CartPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [refresh, setRefresh] = useState(true);
   const navigate = useNavigate();
+  const [refreshCartNavbar, setRefreshCartNavbar] = useState(false);
+
+  const handleRefreshCartNavbar = () => {
+    setRefreshCartNavbar(!refreshCartNavbar);
+  };
 
   const data = { name: 'John', age: 30 };
 
@@ -61,7 +61,9 @@ const CartPage = () => {
   };
 
   const handleDecrement = (item) => {
-    addOrRemoveToCartButtonCalled(-1, item);
+    if (item.quantity > 1) {
+      addOrRemoveToCartButtonCalled(-1, item);
+    }
   };
 
   const handleDeleteItem = async (item) => {
@@ -79,7 +81,8 @@ const CartPage = () => {
         setCartItems(response.data.items); // Assuming the response data is an array of products
         console.log("Called DELETE ITEM FROM CART ITEMS");
         console.log(response.data.items);
-     //   setRefresh(!refresh);
+        setRefresh(!refresh);
+        handleRefreshCartNavbar();
       } catch (error) {
         toast.error("Something Went Wrong !!!", {
           position: "top-right",
@@ -144,7 +147,7 @@ const CartPage = () => {
     <>
       <div className="bg-gray-50 flex flex-col font-rubik sm:gap-10 md:gap-10 gap-[100px] items-start justify-start mx-auto w-auto sm:w-full md:w-full">
         <div className="flex flex-col items-center justify-start w-full">
-          <CartNavbar className="bg-white-A700 flex items-center justify-center md:px-5 px-[75px] py-[15px] w-full" />
+          <CartNavbar className="bg-white-A700 flex items-center justify-center md:px-5 px-[75px] py-[15px] w-full shadow-md"  refresh={refreshCartNavbar} handleRefresh={handleRefreshCartNavbar} />
           <div className="flex flex-col font-raleway items-center justify-start pt-[75px] md:px-10 sm:px-5 px-[75px] w-full">
             <div className="flex flex-col gap-[50px] items-center justify-start max-w-[1290px] mx-auto w-full">
               <Text
@@ -155,14 +158,14 @@ const CartPage = () => {
               </Text>
               <div className="flex md:flex-col flex-row font-rubik md:gap-10 gap-[61px] items-center justify-start w-full">
                 <List
-                  className="flex flex-1 flex-col gap-[30px] items-start w-full"
+                  className="flex flex-1 flex-col gap-[30px] items-start w-full "
                   orientation="vertical"
                 >
                   {cartItems &&
                     cartItems.map((item, index) => (
                       <div
                         key={index}
-                        className="flex flex-1 md:flex-col flex-row gap-[49px] items-center justify-start my-0 w-full"
+                        className="flex flex-1 md:flex-col flex-row gap-[49px] items-center justify-start my-0 w-full  shadow-md"
                       >
                         <div className="flex flex-1 sm:flex-col flex-row gap-5 items-center justify-start w-full">
                           <Img
@@ -218,7 +221,7 @@ const CartPage = () => {
                           {`₹ ${item.itemTotal}`}{" "}
                         </Text>
                         <img
-                          className="h-[50px] w-[50px] cursor-pointer"
+                          className="h-[70px] w-[70px] cursor-pointer mr-4"
                           src="images/img_trash.svg"
                           alt="trash"
                           onClick={() => handleDeleteItem(item)}
@@ -226,7 +229,7 @@ const CartPage = () => {
                       </div>
                     ))}
                 </List>
-                <div className="bg-gray-53 flex sm:flex-1 flex-col items-start justify-start sm:px-5 px-[57px] py-[31px] w-auto sm:w-full">
+                <div className="bg-gray-53 flex sm:flex-1 flex-col items-start justify-start sm:px-5 px-[57px] py-[31px] w-auto sm:w-full shadow-md">
                   <div className="flex flex-col gap-[27px] items-start justify-start w-auto">
                     <Text
                       className="text-black-900 text-xl tracking-[-0.50px] w-auto"

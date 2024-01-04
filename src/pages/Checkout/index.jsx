@@ -69,7 +69,7 @@ const CheckoutPage = () => {
      // setProduct(response.data); // Assuming the response data is an array of products
       console.log("Called PURCHSE  DETAIL ");
       console.log(response.data);
-      navigate("/summary", {state: response.data})
+      navigate("/summary/0", {state: response.data})
     
     } catch (error) {
      
@@ -94,7 +94,7 @@ const CheckoutPage = () => {
   return (
     <>
       <div className="bg-gray-50 flex flex-col font-rubik sm:gap-10 md:gap-10 gap-[100px] items-center justify-start mx-auto w-auto sm:w-full md:w-full">
-        <CartNavbar className="bg-white-A700 flex items-center justify-center md:px-5 px-[75px] py-[15px] w-full" />
+        <CartNavbar className="bg-white-A700 flex items-center justify-center md:px-5 px-[75px] py-[15px] w-full shadow-md" />
         <div className="flex flex-col font-raleway items-center justify-start md:px-10 sm:px-5 px-[75px] w-full">
           <div className="flex flex-col gap-[50px] items-center justify-start max-w-[1290px] mx-auto w-full">
             <Text

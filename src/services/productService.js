@@ -14,6 +14,18 @@ class ProductService{
         return product.get("GetProduct/"+productId+"/6315a5678634010a50742e52");
     }
 
+    GetProductsForAutocomplete(productName){
+        return product.get("GetProductsForAutocomplete?productName="+productName);
+    }
+
+    filterProducts(stringQuery){
+        return product.post("FilterProducts?"+stringQuery);
+    }
+
+    calculateConsumption(productId, area){
+        return product.get("GetProductConsumption/"+productId+"/"+area);
+    }
+
 }
 
 export default new ProductService();

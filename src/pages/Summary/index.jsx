@@ -1,43 +1,60 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import { Button, Img, Line, List, Text } from "components";
 import CartNavbar from "components/CartNavbar";
 import CartSectionfooter from "components/CartSectionfooter";
 import successOrder from "assets/images/successOrder.png";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const SummaryPage = () => {
   const location = useLocation();
+  const { padeId } = useParams();
+ 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("CHEKOUT VALUE : "+ padeId);
+      } catch (error) {
+       
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
       <div className="bg-gray-50 flex flex-col font-rubik sm:gap-10 md:gap-10 gap-[100px] items-start justify-start mx-auto w-auto sm:w-full md:w-full">
-        <div className="flex flex-col items-start justify-start w-full">
+        <div className="flex flex-col items-start justify-start w-full shadow-md">
           <CartNavbar className="bg-white-A700 flex items-center justify-center md:px-5 px-[75px] py-[15px] w-full" />
         </div>
         <div className="flex flex-col items-start justify-center md:px-10 sm:px-5 px-[75px] w-full">
           <div className="flex flex-col gap-[50px] items-center justify-start max-w-[1290px] mx-auto w-full">
-            <div className="flex flex-col gap-[13px] items-center justify-start w-full">
-              <Img
-                className="common-pointer h-20 ml-1 w-20"
-                src={successOrder}
-                alt="minus"
-                //   onClick={handleDecrement}
-              />
-              <Text
-                className="sm:text-4xl md:text-[38px] text-[40px] text-black-900 text-center tracking-[-0.50px] w-full"
-                size="txtRalewayBold40"
-              >
-                Order Success
-              </Text>
-              <Text
-                className="leading-[35.00px] text-center text-gray-500 text-lg tracking-[-0.50px]"
-                size="txtRubikRegular18Gray500"
-              >
-                <>Thanks for Placing Order From Ankan Chem Pvt. Lmt</>
-              </Text>
-            </div>
+            {padeId === '0' && (
+              <div className="flex flex-col gap-[13px] items-center justify-start w-full">
+                <Img
+                  className="common-pointer h-20 ml-1 w-20"
+                  src={successOrder}
+                  alt="minus"
+                  //   onClick={handleDecrement}
+                />
+                <Text
+                  className="sm:text-4xl md:text-[38px] text-[40px] text-black-900 text-center tracking-[-0.50px] w-full"
+                  size="txtRalewayBold40"
+                >
+                  Order Success
+                </Text>
+                <Text
+                  className="leading-[35.00px] text-center text-gray-500 text-lg tracking-[-0.50px]"
+                  size="txtRubikRegular18Gray500"
+                >
+                  <>Thanks for Placing Order From Ankan Chem Pvt. Lmt</>
+                </Text>
+              </div>
+            )}
+
             <div className="flex md:flex-col flex-row font-rubik md:gap-10 gap-[61px] items-start justify-start w-full">
               <List
                 className="flex flex-1 flex-col gap-[30px] items-start w-full mt-8"
@@ -310,7 +327,7 @@ const SummaryPage = () => {
                       {`${location.state.billingAddress.city} `}
                     </Text>
                   </div>
-                 
+
                   <div className="flex flex-row items-center justify-between w-full">
                     <Text
                       className="text-black-900 text-base tracking-[-0.50px] w-auto mr-4"

@@ -56,7 +56,7 @@ const HomepagePage = () => {
   return (
     <>
       <div className="bg-gray-50 flex flex-col font-rubik sm:gap-10 md:gap-10 gap-[100px] items-center justify-start mx-auto w-auto sm:w-full md:w-full">
-        <div className="flex flex-col items-start justify-start w-full">
+        <div className="flex flex-col items-start justify-start w-full shadow-md">
           <CartNavbar className="bg-white-A700 flex items-center justify-center md:px-5 px-[75px] py-[15px] w-full" />
         </div>
 
