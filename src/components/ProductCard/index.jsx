@@ -75,7 +75,7 @@ const ProductCard = (props) => {
         <Text
               lassName="leading-[15.00px] max-w-[593px] md:max-w-full text-md text-red tracking-[-0.10px]"
             size="txtRalewaySemiBold20"
-            style={{ paddingLeft: '10px',  }}
+            style={{ paddingLeft: '10px',fontSize: '29px' }}
           >
            ₹ {props?.price}
           </Text>

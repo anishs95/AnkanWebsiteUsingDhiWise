@@ -35,6 +35,9 @@ const CartNavbar = (props) => {
       } catch (error) {
         setCartItemCount(0);
         console.error("Error fetching CART DATA:", error.code);
+        // if(error && error.response &&  error.response.status === 401){
+        //   navigate("/signin", { replace: true });
+        // }
       }
     };
 
@@ -64,6 +67,9 @@ const CartNavbar = (props) => {
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching product data:", error);
+      if(error && error.response &&  error.response.status === 401){
+        navigate("/signin", { replace: true });
+      }
     }
   };
 
@@ -82,17 +88,12 @@ const CartNavbar = (props) => {
     <>
       <header className={props.className}>
         <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-          <div className="header-row ">
+          <div className=" items-center">
             <Link to="/">
               <Img className="h-[60px] w-[120px]" src={iconImage} alt="car" />
             </Link>
-            <div className="mobile-menu">
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
           </div>
-          <div className="flex sm:flex-1 flex-row gap-9 sm:hidden items-center justify-between w-[398px] sm:w-full">
+          <div className="flex sm:flex-1 flex-row gap-9 items-center justify-between w-[398px] sm:w-full">
             <Link to="/" className="nav-link">
               <Text
                 className="text-black-900 text-lg tracking-[-0.50px] w-auto"
@@ -129,7 +130,7 @@ const CartNavbar = (props) => {
             </Link>
           </div>
 
-          <div className="flex md:flex-col items-center justify-between ">
+          <div className="flex  items-center justify-between ">
             <div
               style={{
                 width: 300,

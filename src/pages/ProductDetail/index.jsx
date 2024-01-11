@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   Button,
   CheckBox,
@@ -25,6 +25,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faClose } from "@fortawesome/free-solid-svg-icons";
+import { useAlert } from 'react-alert'
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -41,6 +42,7 @@ const DetailReviewPage = () => {
   const [consumptionErrorResult, setConsumptionErrorResult] = useState();
   const [refresh, setRefresh] = useState(true);
   const [refreshCartNavbar, setRefreshCartNavbar] = useState(false);
+  const alert = useAlert()
 
   const handleRefreshCartNavbar = () => {
     setRefreshCartNavbar(!refreshCartNavbar);
@@ -54,6 +56,9 @@ const DetailReviewPage = () => {
         console.log(response.data);
       } catch (error) {
         console.error("Error fetching product data:", error);
+        if (error && error.response && error.response.status === 401) {
+          navigate("/signin", { replace: true });
+        }
       }
     };
 
@@ -113,6 +118,9 @@ const DetailReviewPage = () => {
       console.log("Consumption Result Got " + response.data);
     } catch (error) {
       setConsumptionErrorResult("Not Found! Contact Ankan For Calculation");
+      if (error && error.response && error.response.status === 401) {
+        navigate("/signin", { replace: true });
+      }
     }
   };
 
@@ -150,19 +158,32 @@ const DetailReviewPage = () => {
       });
       handleRefreshCartNavbar();
     } catch (error) {
-      toast.error("Something Went Wrong !!!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+     
 
       console.error("Error fetching CART DATA:", error.code);
       console.error("Error fetching CART DATA:", error);
+      if (error && error.response && error.response.status === 401) {
+
+         //Conformation msg to be added to login needed or not 
+         navigate("/signin", { replace: true });
+        //  if(true){
+        //   alert.success('Login Required')
+        //  } else {
+          
+        //  }
+      
+      } else {
+        toast.error("Something Went Wrong !!!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     }
   };
 
@@ -264,6 +285,7 @@ const DetailReviewPage = () => {
             />
           </div>
           <ToastContainer />
+          <div></div>
           <div className="flex flex-col items-start justify-start pt-[75px] md:px-10 sm:px-5 px-[75px] w-full">
             <div className="flex md:flex-col flex-row gap-[47px] items-center justify-start max-w-[1290px] mx-auto w-full">
               {product.imageUris && (
@@ -392,6 +414,9 @@ const DetailReviewPage = () => {
                     >
                       Add to Cart
                     </Text>
+                    {/* <a href="https://herewecode.io/">
+                      Click to open HereWeCode (current tab)
+                    </a> */}
                   </div>
                 </div>
               </div>

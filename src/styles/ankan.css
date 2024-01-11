@@ -37,4 +37,55 @@
   .sorting-label input {
     margin-right: 8px; /* Adjust the spacing between the radio button and text */
   }
+
+  .custom-login-button {
+    background-color: #2196F3;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 19px;
+    border-radius: 28px;
+    text-align: center;
+    font-size: 14px;
+    color: #ffffff;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .custom-login-button:hover {
+    background-color: #1565c0; /* Change the color on hover */
+  }
+  
+  .custom-login-button:active {
+    background-color: #0d47a1; /* Change the color on click */
+  }
+  
+  
+  .custom-otp-button {
+    background-color: #2196F3;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 19px;
+    padding-right: 50px;
+    padding-left: 50px;
+    border-radius: 28px;
+    text-align: center;
+    font-size: 14px;
+    color: #ffffff;
+    /* width: "100px"; */
+    transition: background-color 0.3s ease;
+  }
+  
+  .custom-otp-button:hover {
+    background-color: #1565c0; /* Change the color on hover */
+  }
+  
+  .custom-otp-button:active {
+    background-color: #0d47a1; /* Change the color on click */
+  }
+  
+  @media (max-width: 768px) {
+    .hide-on-mobile {
+      display: none;
+    }
+  }
   

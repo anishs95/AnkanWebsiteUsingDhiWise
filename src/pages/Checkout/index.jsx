@@ -6,6 +6,7 @@ import CartNavbar from "components/CartNavbar";
 import CartSectionfooter from "components/CartSectionfooter";
 import {useLocation, useNavigate} from 'react-router-dom';
 import PurchaseService from "../../services/purchaseService";
+import CartService from "../../services/cartService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -69,7 +70,20 @@ const CheckoutPage = () => {
      // setProduct(response.data); // Assuming the response data is an array of products
       console.log("Called PURCHSE  DETAIL ");
       console.log(response.data);
-      navigate("/summary/0", {state: response.data})
+      await CartService.clearCart();
+
+      // add logic for payment Gateway
+      console.log("PAYEMNET MODE : "+ response.data.modeOfPayment)
+      if(response.data.modeOfPayment === "UPI"){
+       // window.open(response.data.paymentUrl, '_blank');
+       window.history.replaceState({}, "", "/");
+       window.location.href = response.data.paymentUrl;
+      } else{
+        navigate("/summary/0", {state: response.data , replace: true})
+      }
+
+      
+     
     
     } catch (error) {
      
@@ -84,8 +98,10 @@ const CheckoutPage = () => {
           theme: "colored",
           });
       
-      console.error("Error fetching CART DATA:", error.code);
       console.error("Error fetching CART DATA:", error);
+      if(error && error.response &&  error.response.status === 401){
+        navigate("/signin", { replace: true });
+      }
     }
  
   };
@@ -246,11 +262,14 @@ const CheckoutPage = () => {
                         onChange={handlePaymentChange}
                         style={{ marginRight: "20px" }}
                       />
-                      <Img
+                       <Text style={{fontWeight : "Bold"}}>
+                        COD
+                      </Text>
+                      {/* <Img
                         className="h-[19px] md:h-auto object-cover w-[60px] sm:w-full"
                         src="images/img_visa.png"
                         alt="cod"
-                      />
+                      /> */}
                     </label>
 
                     <label className="border border-bluegray-100 border-solid flex flex-row h-[73px] md:h-auto items-center justify-center p-[25px] sm:px-5 w-[155px]">
@@ -263,11 +282,14 @@ const CheckoutPage = () => {
                         onChange={handlePaymentChange}
                         style={{ marginRight: "20px" }}
                       />
-                      <Img
+                      <Text style={{fontWeight : "Bold"}}>
+                        ONLINE PAYMENT
+                      </Text>
+                      {/* <Img
                         className="h-[19px] w-20"
                         src="images/img_refresh.svg"
                         alt="UPI"
-                      />
+                      /> */}
                     </label>
                   </div>
                 </div>

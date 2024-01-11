@@ -2,6 +2,9 @@ import React from "react";
 
 import { Button, Img, Text } from "components";
 
+import img_camera from "assets/images/img_camera.svg";
+import img_facebook from "assets/images/img_facebook.svg";
+
 const CartSectionfooter = (props) => {
 
   const openFacebookUrl = () => {
@@ -47,7 +50,7 @@ const CartSectionfooter = (props) => {
                  onClick={openInsagramUrl}>
                   <Img
                     className="h-6"
-                    src="images/img_camera.svg"
+                    src={img_camera}
                     alt="camera"
                   />
                 </Button>
@@ -57,7 +60,7 @@ const CartSectionfooter = (props) => {
                   
                   <Img
                     className="h-6"
-                    src="images/img_facebook.svg"
+                    src={img_facebook}
                     alt="facebook"
                   />
                 </Button>

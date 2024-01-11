@@ -10,7 +10,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 const SummaryPage = () => {
   const location = useLocation();
   const { padeId } = useParams();
- 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -391,8 +391,11 @@ const SummaryPage = () => {
 
                   <Button
                     className="common-pointer bg-bluegray-900 cursor-pointer font-rubik font-semibold leading-[normal] py-3.5 px-4 text-center text-lg text-yellow-100 tracking-[-0.50px] w-full"
-                    //   onClick={() => navigate("/checkout", {state: cart})}
-                    //  onClick={handleCheckout}
+                      onClick={() =>{
+                        window.history.replaceState(null, '', '/');
+                        window.location.replace('/');
+                      }}
+                    //  onClick={ navigate("/signin", { replace: true })}
                   >
                     Continue Shopping
                   </Button>

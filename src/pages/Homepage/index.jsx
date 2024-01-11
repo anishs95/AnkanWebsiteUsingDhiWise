@@ -30,7 +30,6 @@ const homeOptionsList = [
 const HomepagePage = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-
   const sliderRef = React.useRef(null);
   const [sliderState, setsliderState] = React.useState(0);
   const homepageCardproductPropList = [
@@ -54,19 +53,14 @@ const HomepagePage = () => {
     const fetchData = async () => {
       try {
         const response = await ProductService.getAllProductCategories();
-        // const response = await axios.get(`${basePath}api/Product/GetAllProductCategories`, {
-        //   headers: {
-        //     'authorization': getToken(),
-        //     'Content-type': 'application/json',
-        //   },
-        // });
         setProducts(response.data); // Assuming the response data is an array of products
-        console.log("Called GET ALL PRODUCTS ");
-    //    console.log(response.data);
-    
+        console.log("Called GET ALL PRODUCT CATEGORIES ");
         console.log(products);
       } catch (error) {
-        console.error('Error fetching product data:', error);
+        console.error('Error fetching product Categories:', error);
+        if(error && error.response &&  error.response.status === 401){
+          navigate("/signin", { replace: true });
+        }
       }
     };
 

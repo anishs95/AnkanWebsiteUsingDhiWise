@@ -14,6 +14,7 @@ const ProductList = React.lazy(() => import("pages/ProductList"));
 const Reward = React.lazy(() => import("pages/Rewards"));
 const Wishlist = React.lazy(() => import("pages/Wishlist"));
 const Checkout = React.lazy(() => import("pages/Checkout"));
+const SignIn = React.lazy(() => import("pages/SignIn"));
 const ProductDetail = React.lazy(() => import("pages/ProductDetail"));
 const ShopDetailDescription = React.lazy(
   () => import("pages/ShopDetailDescription"),
@@ -43,6 +44,7 @@ const ProjectRoutes = () => {
           <Route path="/blogdetail" element={<BlogDetail />} />
           <Route path="/contactus" element={<Contactus />} />
           <Route path="/aboutus" element={<Aboutus />} />
+          <Route path="/signin" element={<SignIn />} />
           <Route path="/dhiwise-dashboard" element={<Home />} />
         </Routes>
       </Router>

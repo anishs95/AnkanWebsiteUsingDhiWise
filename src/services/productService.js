@@ -1,29 +1,65 @@
+import axios from 'axios';
+var basePath = process.env.REACT_APP_API_BASE;
 const product = require('../http-common').product;
+
+function getApiHeader(){
+    return axios.create({
+      baseURL: `${basePath}api/Product/`,
+      headers: {
+        'authorization':  getToken(),
+        'Content-type': 'application/json',
+      },
+    });
+ }
+
+function getToken(){
+  var token = localStorage.getItem("ankanToken");
+   try {
+     var authToken = 'Bearer '+token;  
+     return authToken;
+   } catch (error) {
+     console.log(error);
+     return false;
+   }
+ }
+
+ function getUserId() {
+  return localStorage.getItem("userId");
+}
+
+function getLocationId() {
+  if (localStorage.getItem("ankanSelectedLocationId")) {
+    return localStorage.getItem("ankanSelectedLocationId");
+  } else {
+    return "6315a5678634010a50742e52";
+  }
+}
+
 
 class ProductService{
     
     getAllProductCategories(){
-        return product.get("GetAllProductCategories");
+        return getApiHeader().get("GetAllProductCategoriesWeb");
     }
 
     getAllProductsByCategory(categoryId){
-        return product.get("GetAllProductsByCategory/"+categoryId+"/6315a5678634010a50742e52");
+        return getApiHeader().get("GetAllProductsByCategoryWeb/"+categoryId+"/"+getLocationId());
     }
 
     getProduct(productId){
-        return product.get("GetProduct/"+productId+"/6315a5678634010a50742e52");
+        return getApiHeader().get("GetProductWeb/"+productId+"/"+getLocationId());
     }
 
     GetProductsForAutocomplete(productName){
-        return product.get("GetProductsForAutocomplete?productName="+productName);
+        return getApiHeader().get("GetProductsForAutocomplete?productName="+productName);
     }
 
     filterProducts(stringQuery){
-        return product.post("FilterProducts?"+stringQuery);
+        return getApiHeader().post("FilterProducts?"+stringQuery);
     }
 
     calculateConsumption(productId, area){
-        return product.get("GetProductConsumption/"+productId+"/"+area);
+        return getApiHeader().get("GetProductConsumption/"+productId+"/"+area);
     }
 
 }

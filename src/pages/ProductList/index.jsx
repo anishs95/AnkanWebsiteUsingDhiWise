@@ -12,6 +12,8 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faClose } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+
 import {
   Container,
   Link,
@@ -31,6 +33,7 @@ const HomepagePage = () => {
   const youtubePlayerRef = useRef(null); // Add useRef
   const [value, setValue] = useState([0, 5000]);
   const [selectedSorting, setSelectedSorting] = useState(null);
+  const navigate = useNavigate();
 
   const handleSorting = (option) => {
     setSelectedSorting(option === selectedSorting ? null : option);
@@ -57,6 +60,9 @@ const HomepagePage = () => {
       close();
     } catch (error) {
       console.error("Error fetching product List Data :", error);
+      if(error && error.response &&  error.response.status === 401){
+        navigate("/signin", { replace: true });
+      }
     }
   };
   const opts = {
@@ -109,6 +115,9 @@ const HomepagePage = () => {
         console.log(response.data);
       } catch (error) {
         console.error("Error fetching product List Data :", error);
+        if(error && error.response &&  error.response.status === 401){
+          navigate("/signin", { replace: true });
+        }
       }
     };
 

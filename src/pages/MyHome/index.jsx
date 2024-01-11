@@ -6,6 +6,7 @@ import CartNavbar from "components/CartNavbar";
 import CartSectionfooter from "components/CartSectionfooter";
 import CategoryCard from "components/CategoryCard";
 import YouTube from "react-youtube";
+import { useNavigate } from "react-router-dom";
 
 import ProductService from "../../services/productService";
 
@@ -13,7 +14,7 @@ const HomepagePage = () => {
   const [products, setProducts] = useState([]);
   const [playingVideoId, setPlayingVideoId] = useState(null);
   const youtubePlayerRef = useRef(null); // Add useRef
-
+  const navigate = useNavigate();
   const opts = {
     height: "390",
     width: "640",
@@ -31,10 +32,13 @@ const HomepagePage = () => {
       try {
         const response = await ProductService.getAllProductCategories();
         setProducts(response.data); // Assuming the response data is an array of products
-        console.log("Called GET ALL PRODUCTS ");
+        console.log("Called GET ALL CATEGORIES ");
         console.log(products);
       } catch (error) {
         console.error("Error fetching product data:", error);
+        if(error && error.response &&  error.response.status === 401){
+          navigate("/signin", { replace: true });
+        }
       }
     };
 

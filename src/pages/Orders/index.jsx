@@ -28,19 +28,21 @@ const OrderPage = () => {
         setPurchaseOrders(response.data);
         console.log(response.data);
       } catch (error) {
-        toast.error("Something Went Wrong !!!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        // toast.error("Something Went Wrong !!!", {
+        //   position: "top-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: false,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "colored",
+        // });
 
-        console.error("Error fetching CART DATA:", error.code);
-        console.error("Error fetching CART DATA:", error);
+        console.error("Error fetching purchase order DATA:", error);
+        if(error && error.response &&  error.response.status === 401){
+          navigate("/signin", { replace: true });
+        }
       }
     };
 

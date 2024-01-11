@@ -5,12 +5,13 @@ import CartColumnframe48095972 from "components/CartColumnframe48095972";
 import CartNavbar from "components/CartNavbar";
 import CartSectionfooter from "components/CartSectionfooter";
 import TeamCardteam from "components/TeamCardteam";
-
+import { useNavigate } from "react-router-dom";
 import RewardService from "../../services/rewardService";
 
 const RewardPage = () => {
   const [userRewards , setUserRewards] = useState([]);
   const [totalEarnedReward, setTotalEarnedReward] = useState("₹ 0/-");
+  const navigate = useNavigate();
   useEffect(() => {
     console.log("REWARD PAGE");
     const fetchData = async () => {
@@ -27,6 +28,9 @@ const RewardPage = () => {
         console.log(getUserRewardResposne.data);
       } catch (error) {
         console.error("Error fetching REWARDS List Data :", error);
+        if(error && error.response &&  error.response.status === 401){
+          navigate("/signin", { replace: true });
+        }
       }
     };
 

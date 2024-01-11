@@ -13,7 +13,6 @@ import plusImage from "assets/images/img_plus.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [cart, setCart] = useState({});
@@ -26,7 +25,7 @@ const CartPage = () => {
     setRefreshCartNavbar(!refreshCartNavbar);
   };
 
-  const data = { name: 'John', age: 30 };
+  const data = { name: "John", age: 30 };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,19 +36,24 @@ const CartPage = () => {
         console.log("Called GET CART DETAILS");
         console.log(response.data.items);
       } catch (error) {
-        toast.error("Something Went Wrong !!!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+      
 
         console.error("Error fetching CART DATA:", error.code);
         console.error("Error fetching CART DATA:", error);
+        if (error && error.response && error.response.status === 401) {
+          navigate("/signin", { replace: true });
+        } else{
+          toast.error("Something Went Wrong !!!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
       }
     };
 
@@ -67,7 +71,6 @@ const CartPage = () => {
   };
 
   const handleDeleteItem = async (item) => {
-
     var productDetails = {
       productId: item.productId,
       productName: item.productName,
@@ -75,29 +78,31 @@ const CartPage = () => {
       unit: item.unit,
     };
 
-      console.log("DELETE BUTTON PRESSED :"+ JSON.stringify(productDetails));
-      try {
-        const response = await CartService.deleteItemFromCart(productDetails);
-        setCartItems(response.data.items); // Assuming the response data is an array of products
-        console.log("Called DELETE ITEM FROM CART ITEMS");
-        console.log(response.data.items);
-        setRefresh(!refresh);
-        handleRefreshCartNavbar();
-      } catch (error) {
-        toast.error("Something Went Wrong !!!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+    console.log("DELETE BUTTON PRESSED :" + JSON.stringify(productDetails));
+    try {
+      const response = await CartService.deleteItemFromCart(productDetails);
+      setCartItems(response.data.items); // Assuming the response data is an array of products
+      console.log("Called DELETE ITEM FROM CART ITEMS");
+      console.log(response.data.items);
+      setRefresh(!refresh);
+      handleRefreshCartNavbar();
+    } catch (error) {
+      toast.error("Something Went Wrong !!!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       //  setRefresh(!refresh);
-        console.error("Error  DELETE ITEM FROM CART ITEMS ", error.code);
-        console.error("Error  DELETE ITEM FROM CART ITEMS ", error);
+      console.error("Error  DELETE ITEM FROM CART ITEMS ", error);
+      if (error && error.response && error.response.status === 401) {
+        navigate("/signin", { replace: true });
       }
+    }
   };
 
   const addOrRemoveToCartButtonCalled = async (addedQuantityValue, item) => {
@@ -110,7 +115,7 @@ const CartPage = () => {
     };
 
     try {
-      const response = await CartService.addItemToCart( productDetails);
+      const response = await CartService.addItemToCart(productDetails);
       console.log("Called GET PLUS ONE OR MINUS ONE  TO CART CALLED HERE: ");
       console.log(response.data);
       setRefresh(!refresh);
@@ -125,29 +130,33 @@ const CartPage = () => {
       //   theme: "colored",
       //   });
     } catch (error) {
-        toast.error('Something Went Wrong !!!', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          });
-          setRefresh(!refresh);
-      console.error("Error fetching CART DATA:", error.code);
+      toast.error("Something Went Wrong !!!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      setRefresh(!refresh);
       console.error("Error fetching CART DATA:", error);
+      if (error && error.response && error.response.status === 401) {
+        navigate("/signin", { replace: true });
+      }
     }
-
   };
-
 
   return (
     <>
       <div className="bg-gray-50 flex flex-col font-rubik sm:gap-10 md:gap-10 gap-[100px] items-start justify-start mx-auto w-auto sm:w-full md:w-full">
         <div className="flex flex-col items-center justify-start w-full">
-          <CartNavbar className="bg-white-A700 flex items-center justify-center md:px-5 px-[75px] py-[15px] w-full shadow-md"  refresh={refreshCartNavbar} handleRefresh={handleRefreshCartNavbar} />
+          <CartNavbar
+            className="bg-white-A700 flex items-center justify-center md:px-5 px-[75px] py-[15px] w-full shadow-md"
+            refresh={refreshCartNavbar}
+            handleRefresh={handleRefreshCartNavbar}
+          />
           <div className="flex flex-col font-raleway items-center justify-start pt-[75px] md:px-10 sm:px-5 px-[75px] w-full">
             <div className="flex flex-col gap-[50px] items-center justify-start max-w-[1290px] mx-auto w-full">
               <Text
@@ -158,47 +167,45 @@ const CartPage = () => {
               </Text>
               <div className="flex md:flex-col flex-row font-rubik md:gap-10 gap-[61px] items-center justify-start w-full">
                 <List
-                  className="flex flex-1 flex-col gap-[30px] items-start w-full "
+                  className="flex flex-1 flex-col gap-[30px] items-start w-full"
                   orientation="vertical"
                 >
                   {cartItems &&
                     cartItems.map((item, index) => (
                       <div
                         key={index}
-                        className="flex flex-1 md:flex-col flex-row gap-[49px] items-center justify-start my-0 w-full  shadow-md"
+                        className="flex flex-1 md:flex-col flex-row gap-[20px] items-center justify-start my-0 w-full shadow-md"
                       >
                         <div className="flex flex-1 sm:flex-col flex-row gap-5 items-center justify-start w-full">
                           <Img
                             className="h-[120px] md:h-auto object-cover w-[120px]"
-                            src={item.imageUrl} // replace with the actual property from your API response
-                            alt={item.altText} // replace with the actual property from your API response
+                            src={item.imageUrl}
+                            alt={item.altText}
                           />
-                          <div className="flex flex-col gap-4 items-start justify-start w-auto">
+                          <div className="flex flex-col gap-2 items-start justify-start w-auto">
                             <Text
-                              className="leading-[35.00px] max-w-[294px] md:max-w-full text-black-900 text-xl tracking-[-0.50px]"
+                              className="leading-[35.00px] max-w-[200px] md:max-w-full text-black-900 text-xl tracking-[-0.50px]"
                               size="txtRalewayRomanBold20"
                             >
-                              {item.productName}{" "}
-                              {/* replace with the actual property from your API response */}
+                              {item.productName}
                             </Text>
                             <Text
                               className="text-bluegray-900 text-xl tracking-[-0.50px] w-auto"
                               size="txtPoppinsBold20"
                             >
-                              {`₹ ${item.unitPrice}`}{" "}
-                              {/* replace with the actual property from your API response */}
+                              {`₹ ${item.unitPrice}`}
                             </Text>
                           </div>
                         </div>
                         <div className="border border-black-900 border-solid flex flex-col items-start justify-start px-[15px] py-[5px] w-auto">
-                          <div className="flex flex-row gap-[15px] items-center justify-start p-2.5 w-[38%]">
+                          <div className="flex flex-row gap-[10px] items-center justify-start p-2.5 w-[60%]">
                             <Img
                               className="common-pointer h-6 ml-1 w-6"
                               src={
                                 item.quantity > 1 ? minusImage : minusImageGrey
                               }
                               alt="minus"
-                             onClick={()=> handleDecrement(item)}
+                              onClick={() => handleDecrement(item)}
                             />
                             <Text
                               className="text-black-900 text-lg tracking-[-0.50px]"
@@ -210,7 +217,7 @@ const CartPage = () => {
                               className="h-6 w-6"
                               src={plusImage}
                               alt="plus"
-                             onClick={()=> handleIncrement(item)}
+                              onClick={() => handleIncrement(item)}
                             />
                           </div>
                         </div>
@@ -218,10 +225,10 @@ const CartPage = () => {
                           className="text-black-900 text-lg tracking-[-0.50px] w-auto"
                           size="txtRubikSemiBold18"
                         >
-                          {`₹ ${item.itemTotal}`}{" "}
+                          {`₹ ${item.itemTotal}`}
                         </Text>
                         <img
-                          className="h-[70px] w-[70px] cursor-pointer mr-4"
+                          className="h-[50px] w-[50px] cursor-pointer mr-2"
                           src="images/img_trash.svg"
                           alt="trash"
                           onClick={() => handleDeleteItem(item)}
@@ -235,12 +242,11 @@ const CartPage = () => {
                       className="text-black-900 text-xl tracking-[-0.50px] w-auto"
                       size="txtRalewayRomanBold20"
                     >
-                       Total Cost
+                      Total Cost
                     </Text>
-{/*                   
+                    {/*                   
                     <Line className="bg-black-900 h-px w-full" /> */}
                     <div className="flex flex-row items-center justify-between w-full">
-                    
                       <Text
                         className="text-black-900 text-xl tracking-[-0.50px] w-auto"
                         size="txtPoppinsSemiBold20"
@@ -250,8 +256,8 @@ const CartPage = () => {
                     </div>
                     <Button
                       className="common-pointer bg-bluegray-900 cursor-pointer font-rubik font-semibold leading-[normal] py-3.5 px-4 text-center text-lg text-yellow-100 tracking-[-0.50px] w-full"
-                     onClick={() => navigate("/checkout", {state: cart})}
-                        //  onClick={handleCheckout}
+                      onClick={() => navigate("/checkout", { state: cart })}
+                      //  onClick={handleCheckout}
                     >
                       Checkout Now
                     </Button>
@@ -261,9 +267,7 @@ const CartPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-start justify-start md:px-10 sm:px-5 px-[75px] w-full">
-        
-        </div>
+        <div className="flex flex-col items-start justify-start md:px-10 sm:px-5 px-[75px] w-full"></div>
         <CartSectionfooter className="bg-black-900 flex font-raleway gap-2 items-center justify-center md:px-5 px-[75px] py-[50px] w-full" />
       </div>
     </>
