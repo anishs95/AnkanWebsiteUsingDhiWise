@@ -181,6 +181,26 @@ const SummaryPage = () => {
                       className="text-black-900 text-base tracking-[-0.50px] w-auto mr-4"
                       size="txtPoppinsSemiBold20"
                     >
+                      {`Payment Status`}
+                    </Text>
+                    <Text
+                      className="text-black-900 text-base tracking-[-0.50px] w-auto mr-4"
+                      size="txtPoppinsSemiBold20"
+                    >
+                      {``}
+                    </Text>
+                    <Text
+                      className="text-black-100 text-base tracking-[-0.50px] w-auto"
+                      size="txtPoppinsSemiBold10"
+                    >
+                      {`${location.state.status} `}
+                    </Text>
+                  </div>
+                  <div className="flex flex-row items-center justify-between w-full">
+                    <Text
+                      className="text-black-900 text-base tracking-[-0.50px] w-auto mr-4"
+                      size="txtPoppinsSemiBold20"
+                    >
                       {`Item Sub-Total `}
                     </Text>
                     <Text

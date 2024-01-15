@@ -62,7 +62,7 @@ const OrderPage = () => {
                 className="sm:text-4xl md:text-[38px] text-[40px] text-black-900 text-center tracking-[-0.50px] w-full"
                 size="txtRalewayBold40"
               >
-                My Recent Orders {purchaseOrders && purchaseOrders.length}
+                My Recent Orders
               </Text>
               {/* <Text
                 className="leading-[35.00px] text-center text-gray-500 text-lg tracking-[-0.50px]"
@@ -101,6 +101,13 @@ const OrderPage = () => {
                       size="txtPoppinsBold20"
                     >
                       {`${new Date(item.orderDate).toDateString()} `}
+                      {/* replace with the actual property from your API response */}
+                    </Text>
+                    <Text
+                      className="text-bluegray-500 text-sm tracking-[-0.50px] w-auto"
+                      size="txtPoppinsBold10"
+                    >
+                      {`Payment Status : ${item.status} `}
                       {/* replace with the actual property from your API response */}
                     </Text>
                   </div>

@@ -47,7 +47,6 @@ const HomepagePage = () => {
     { rectangleeighteen: "images/img_rectangle18_400x416.png" },
     { rectangleeighteen: "images/img_rectangle18_1.png" },
   ];
-
   
   useEffect(() => {
     const fetchData = async () => {
@@ -66,6 +65,8 @@ const HomepagePage = () => {
 
     fetchData();
   }, []);
+
+
 
   return (
     <>

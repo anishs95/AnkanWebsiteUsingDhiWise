@@ -76,7 +76,7 @@ const CheckoutPage = () => {
       console.log("PAYEMNET MODE : "+ response.data.modeOfPayment)
       if(response.data.modeOfPayment === "UPI"){
        // window.open(response.data.paymentUrl, '_blank');
-       window.history.replaceState({}, "", "/");
+       window.history.replaceState({}, "", "/order");
        window.location.href = response.data.paymentUrl;
       } else{
         navigate("/summary/0", {state: response.data , replace: true})
